@@ -1,31 +1,18 @@
 #pragma once
-#include "Library.h"
-#include<iostream>
-using namespace std;
-
-class Memberships : public Library {
+class Memberships
+{
 public:
-    int m_netmemberships;
-    int m_deletedmembers;
-    int m_grassmembers;
+public:
+    int m_netMemberships;
+    int m_deletedMembers;
+    int m_grassMembers;
 
-    Memberships(std::string branch, int netbooks, int deletedbooks, int netmemberships, int deletedmembers) :
-        Library(branch, netbooks, deletedbooks), m_netmemberships(netmemberships), m_deletedmembers(deletedmembers), m_grassmembers(0) {}
+    Memberships(int netMemberships, int deletedMembers)
+        : m_netMemberships(netMemberships), m_deletedMembers(deletedMembers), m_grassMembers(0){}
+    
+    int getTotalMemberships();
 
-    int getTotalMemberships() {
-        m_grassmembers = m_netmemberships - m_deletedmembers;
-        return m_grassmembers;
-    }
-
-    void setLibraryDetails() {
-        void setDetails(); // This calls the setDetails method of the base class
-        std::cout << "MEMBERSHIP DETAILS:" << std::endl;
-        std::cout << "NET MEMBERSHIPS: " << m_netmemberships << std::endl;
-        std::cout << "DELETED MEMBERS: " << m_deletedmembers << std::endl;
-        std::cout << "GROSS MEMBERSHIPS: " << m_grassmembers << std::endl;
-    }
-
-    ~Memberships() {
-        std::cout << "Destructor called for Memberships class" << std::endl;
-    }
+    void setLibraryDetails();
+    ~Memberships();
 };
+

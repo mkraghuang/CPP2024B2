@@ -1,31 +1,24 @@
 #include "Library.h"
 #include<iostream>
-using namespace std;
-
-Library::Library(std::string branch, int netbooks, int deletedbooks)
-{
-	m_branch = branch;
-	m_netBooks = netbooks;
-	m_deletedBooks = deletedbooks;
-	m_grassBooks = 0;
-
-}
+#include"string"
 
 int Library::getTotalBooks()
 {
-	m_grassBooks = m_netBooks - m_deletedBooks;
-
-	return m_grassBooks;
-	
+    m_grassBooks = m_netBooks - m_deletedBooks;
+    return m_grassBooks;
+    
 }
 
-void Library::setdetails()
+void Library::setDetails()
 {
-	cout << "LIBRARY DETAILS:" << endl;
-
+   std:: cout << "LIBRARY DETAILS:" << std::endl;
+  std::  cout << "BRANCH NAME = " << m_branch <<std:: endl;
+   std:: cout << "NET BOOKS = " << m_netBooks <<std:: endl;
+   std:: cout << "DELETED BOOKS = " << m_deletedBooks <<std:: endl;
+   std:: cout << "GRASS BOOKS = " << m_grassBooks <<std:: endl;
 }
 
 Library::~Library()
 {
-	cout << "destructor call base class" << endl;
+   std:: cout << "Destructor called for Library" <<std:: endl;
 }

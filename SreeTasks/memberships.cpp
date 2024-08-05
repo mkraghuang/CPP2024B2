@@ -1,12 +1,22 @@
-#include "memberships.h"
-#include"Library.h"
+#include "Memberships.h"
+#include<iostream>
 
-int main()
+int Memberships::getTotalMemberships()
 {
-    Memberships lib1("Grad Two Eluru", 27000, 3000, 4060, 250);
-    lib1.getTotalBooks();
-    lib1.setdetails();
-    lib1.getTotalMemberships();
-    lib1.setLibraryDetails();
-    return 0;
+    m_grassMembers = m_netMemberships - m_deletedMembers;
+    return m_grassMembers;
+}
+
+void Memberships::setLibraryDetails()
+{
+   std:: cout << "NET MEMBERSHIPS = " << m_netMemberships << std::endl;
+   std:: cout << "DELETED MEMBERS = " << m_deletedMembers <<std:: endl;
+  std::  cout << "GRASS MEMBERSHIPS = " << m_grassMembers <<std:: endl;
+   
+}
+
+Memberships::~Memberships()
+
+{
+   std:: cout << "Destructor called for Memberships" <<std:: endl;
 }
