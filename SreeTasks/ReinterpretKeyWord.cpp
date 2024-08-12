@@ -2,11 +2,95 @@
 //
 
 #include <iostream>
+#include<string>
+using namespace std;
 
-int main()
+
+/*int main()
 {
-    std::cout << "Hello World!\n";
+   int *p=new int(65);
+    char* ch=reinterpret_cast<char*>(p);
+    cout<<*p<<endl;
+    cout<<*ch<<endl;
+    cout<<p<<endl;
+   cout<<ch<<endl;
+
+
+    return 0;
+}*/
+
+
+/*struct Student{
+   public:
+ int a;
+ int b;
+ char c;
+ bool d;
+
+};
+
+int main(){
+
+    Student s;
+    s.a=5;
+    s.b=10;
+    s.c='M';
+    s.d=true;
+    int* ptr=reinterpret_cast<int*>(&s);
+    cout<<sizeof(s)<<endl;
+    cout<<*ptr<<endl;
+    ptr++;
+    cout<<*ptr<<endl;
+    ptr++;
+    char* c=reinterpret_cast<char*>(ptr);
+    cout<<c<<endl;
+
+    bool* d=reinterpret_cast<bool*>(c);
+    cout<<*d<<endl;
+
+    cout<<*(reinterpret_cast<bool*>(c));
+
+    return 0;
+}*/
+
+class Student
+
+{
+    string  m_name;
+    //int m_age;
+
+public:
+    Student(string name/*,int age*/) :m_name(name)/*m_age(age)*/ {
+        cout << "Base call constructor:" << endl;
+    }
+    void disp() {
+        cout << m_name << endl;
+        //cout<<m_age<<endl;
+    }
+};
+
+class details :public Student
+
+{
+    long m_phonenum;
+public:
+    details(string name, long phonenum) :Student(name), m_phonenum(phonenum) {
+        cout << "derived constructor call:" << endl;
+    }
+    void show() {
+        cout << m_phonenum << endl;
+    }
+};
+
+int main() {
+
+    details* obj = new details("sree", 8500350146);
+    Student* obj1 = reinterpret_cast<Student*>(obj);
+    obj1->disp();
+    obj->show();
+    return 0;
 }
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
