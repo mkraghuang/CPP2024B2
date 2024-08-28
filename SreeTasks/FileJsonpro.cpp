@@ -4,45 +4,115 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <set>
+#include <map>
 #include <nlohmann/json.hpp>
 
 using namespace std;
 using json = nlohmann::json;
 
-class Students
-{
-public:
-    std::string name;
-    int AGE;
-    bool PAID;
-    int CLASS;
-    int MARKS;
+class Employee {
+private:
+    std::string  m_name;
+    int  m_id;
+    std::string m_gender;
+    int m_sal;
+    std::string m_dept;
 
-    json to_json() {
-        json file;
-        file["name"] = name;
-        file["AGE"] = AGE;
-        file["PAID"] = PAID;
-        file["CLASS"] = CLASS;
-        file["MARKS"] = MARKS;
-        return file;
+public:
+    // Parameterized constructor
+    Employee(const std::string name, int id, const std::string gender, int sal, const std::string dept)
+        : m_name(name), m_id(id), m_gender(gender), m_sal(sal), m_dept(dept) {}
+
+    // Convert Employee object to JSON
+    json to_json() const {
+        json exampleJson;
+        exampleJson["name"] =m_name;
+        exampleJson["id"] = m_id;
+        exampleJson["gender"] = m_gender;
+        exampleJson["sal"] = m_sal;
+        exampleJson["dept"] =m_dept;
+        return exampleJson;
+    }
+
+    // Get functions for member variables
+    std::string getGender() const
+    { 
+        return m_gender; 
+    }
+    int getSalary() const
+    { 
+        return m_sal; 
+    }
+    std::string getDepartment() const 
+    { 
+        return m_dept;
     }
 };
 
 int main() {
-    Students student;
-    student.name = "sai";
-    student.AGE = 26;
-    student.PAID = true;
-    student.CLASS = 10;
-    student.MARKS = 85;
+    // Create employee objects using parameterized constructor
+    Employee emp1("aleam", 1, "Male", 50000, "Sales");
+    Employee emp2("keerthi", 2, "Female", 60000, "Marketing");
+    Employee emp3("sai", 3, "Male", 45000, "IT");
 
-    json student_json = student.to_json();
+    // Create a vector of Employee objects
+    std::vector<Employee> employees = { emp1, emp2, emp3 };
+
+    // Count male and female employees
+    int male_count = 0;
+    int female_count = 0;
+
+    // Count employees with salary above 50,000
+    int salary_above_50000_count = 0;
+
+    // Track departments and their strengths
+    std::set<std::string> unique_departments;
+    std::map<std::string, int> department_strength;
+
+    for (const auto& emp : employees) {
+        if (emp.getGender() == "Male") {
+            male_count++;
+        }
+        else if (emp.getGender() == "Female") {
+            female_count++;
+        }
+
+        // Check salary condition
+        if (emp.getSalary() > 50000) {
+            salary_above_50000_count++;
+        }
+
+        // Track departments and their strength
+        unique_departments.insert(emp.getDepartment());
+        department_strength[emp.getDepartment()]++;
+    }
+
+    // Print the counts
+    cout << "Male Employees: " << male_count << endl;
+    cout << "Female Employees: " << female_count << endl;
+    cout << "Employees with salary above 50,000: " << salary_above_50000_count << endl;
+
+    // Print number of departments
+    cout << "Number of Departments: " << unique_departments.size() << endl;
+
+    // Print the strength of each department
+    cout << "Department Strengths:" << endl;
+    for (const auto& dept : department_strength) {
+        cout << dept.first << ": " << dept.second << endl;
+    }
+
+    // Convert the vector of employees to JSON
+    json employees_json = json::array();
+    for (const auto& emp : employees) {
+        employees_json.push_back(emp.to_json());
+    }
 
     // Output the JSON object to a file
-    ofstream output_file("student.json");
+    ofstream output_file("employees.json");
     if (output_file.is_open()) {
-        output_file << student_json.dump(4); // Pretty print with 4 spaces indent
+        output_file << employees_json.dump(4); // Print with 4 spaces indent
         output_file.close();
     }
     else {
@@ -50,7 +120,7 @@ int main() {
     }
 
     // Print JSON to console
-    cout << student_json.dump(4) << endl;
+    cout << employees_json.dump(4) << endl;
 
     return 0;
 }
