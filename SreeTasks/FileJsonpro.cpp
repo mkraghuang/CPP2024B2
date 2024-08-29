@@ -8,7 +8,6 @@
 #include <set>
 #include <map>
 #include <nlohmann/json.hpp>
-
 using namespace std;
 using json = nlohmann::json;
 
@@ -52,19 +51,45 @@ public:
 };
 
 int main() {
+
+   std::ifstream file("JsonEmployee.json");
+    if (!file.is_open()) {
+        std::cout << "file not open !" << std::endl;
+        return 1;
+    }
+
+    // Parse the JSON data
+    json jsonData;
+    file >> jsonData;
+   file.close();
     // Create employee objects using parameterized constructor
-    Employee emp1("aleam", 1, "Male", 50000, "Sales");
-    Employee emp2("keerthi", 2, "Female", 60000, "Marketing");
-    Employee emp3("sai", 3, "Male", 45000, "IT");
+   // Employee emp1("aleam", 1, "Male", 50000, "Sales");
+    //Employee emp2("keerthi", 2, "Female", 60000, "Marketing");
+    //Employee emp3("sai", 3, "Male", 45000, "IT");
 
     // Create a vector of Employee objects
-    std::vector<Employee> employees = { emp1, emp2, emp3 };
+   std::vector<Employee> employees;
+  
+
+   for (const auto& emp: jsonData) {
+       // Extract data from JSON
+       std::string name = emp["name"];
+       int id = emp["id"];
+       std::string gender = emp["gender"];
+       int sal = emp["sal"];
+       std::string dept = emp["dept"];
+
+       // Create Employee object and add to the vector
+       employees.emplace_back(name, id, gender, sal, dept);
+   }
+
 
     // Count male and female employees
     int male_count = 0;
     int female_count = 0;
 
     // Count employees with salary above 50,000
+
     int salary_above_50000_count = 0;
 
     // Track departments and their strengths
@@ -88,19 +113,19 @@ int main() {
         unique_departments.insert(emp.getDepartment());
         department_strength[emp.getDepartment()]++;
     }
-
+    
     // Print the counts
-    cout << "Male Employees: " << male_count << endl;
-    cout << "Female Employees: " << female_count << endl;
-    cout << "Employees with salary above 50,000: " << salary_above_50000_count << endl;
+    std::cout << "Male Employees: " << male_count << endl;
+   std:: cout << "Female Employees: " << female_count << endl;
+    std::cout << "Employees with salary above 50,000: " << salary_above_50000_count << endl;
 
     // Print number of departments
-    cout << "Number of Departments: " << unique_departments.size() << endl;
+   std:: cout << "Number of Departments: " << unique_departments.size() << endl;
 
     // Print the strength of each department
-    cout << "Department Strengths:" << endl;
+    std::cout << "Department Strengths:" << endl;
     for (const auto& dept : department_strength) {
-        cout << dept.first << ": " << dept.second << endl;
+      std:: cout << dept.first << ": " << dept.second << endl;
     }
 
     // Convert the vector of employees to JSON
@@ -116,11 +141,11 @@ int main() {
         output_file.close();
     }
     else {
-        cout << "Unable to open file" << endl;
+       std:: cout << "Unable to open file" << endl;
     }
 
     // Print JSON to console
-    cout << employees_json.dump(4) << endl;
+   std:: cout << employees_json.dump(4) << endl;
 
     return 0;
 }
